@@ -1,7 +1,6 @@
 package com.sofkau.library.controller;
 
 import com.sofkau.library.dto.ResourceDto;
-import com.sofkau.library.model.Resource;
 import com.sofkau.library.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -100,6 +99,23 @@ public class ResourceController {
             resource.setAvailable(false);
             resource.setLastBorrowingDate(LocalDate.now());
 
+            service.update(resource);
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        }  catch (RuntimeException e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/giveBack/{id}")
+    public ResponseEntity<String> giveBackResource(@PathVariable String id) {
+        try {
+            ResourceDto resource = service.getById(id);
+
+            if(Boolean.TRUE.equals(resource.getAvailable())) {
+                return new ResponseEntity<>(
+                        "Do not giveBack this recourse, because it is not borrowed", HttpStatus.FORBIDDEN);
+            }
+            resource.setAvailable(true);
             service.update(resource);
             return new ResponseEntity<>("OK", HttpStatus.OK);
         }  catch (RuntimeException e) {
