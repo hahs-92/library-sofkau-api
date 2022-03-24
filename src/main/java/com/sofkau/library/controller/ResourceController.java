@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -80,6 +81,27 @@ public class ResourceController {
                 );
             }
             return new ResponseEntity<>("El resource is available", HttpStatus.OK);
+        }  catch (RuntimeException e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/borrow/{id}")
+    public ResponseEntity<String> borrowResource(@PathVariable String id) {
+        try {
+            ResourceDto resource = service.getById(id);
+
+            if(Boolean.FALSE.equals(resource.getAvailable())) {
+                return new ResponseEntity<>(
+                        "Resource is not available, last borrowing date: " + resource.getLastBorrowingDate(),
+                        HttpStatus.FORBIDDEN
+                );
+            }
+            resource.setAvailable(false);
+            resource.setLastBorrowingDate(LocalDate.now());
+
+            service.update(resource);
+            return new ResponseEntity<>("OK", HttpStatus.OK);
         }  catch (RuntimeException e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
