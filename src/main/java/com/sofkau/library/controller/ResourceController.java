@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -31,6 +32,7 @@ public class ResourceController {
     public ResponseEntity<List<ResourceDto>> getAll() {
         try {
             return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+
         } catch (RuntimeException e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -119,6 +121,18 @@ public class ResourceController {
             service.update(resource);
             return new ResponseEntity<>("OK", HttpStatus.OK);
         }  catch (RuntimeException e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/recommendations")
+    public ResponseEntity<List<ResourceDto>> getByQuery(
+            @RequestParam(value = "type", defaultValue = "") String type,
+            @RequestParam(value = "theme", defaultValue = "") String theme
+    ) {
+        try {
+            return new ResponseEntity<>(service.getAllByQueries(type, theme),HttpStatus.OK);
+        } catch (RuntimeException e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
