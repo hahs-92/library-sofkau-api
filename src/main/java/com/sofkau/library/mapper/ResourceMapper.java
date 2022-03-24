@@ -16,6 +16,8 @@ public class ResourceMapper {
         resource.setDescription(dto.getDescription());
         resource.setType(dto.getType());
         resource.setTheme(dto.getTheme());
+        resource.setAvailable(dto.getAvailable());
+        resource.setLastBorrowingDate(dto.getLastBorrowingDate());
 
         return resource;
     }
@@ -27,6 +29,8 @@ public class ResourceMapper {
         resourceDto.setDescription(resource.getDescription());
         resourceDto.setType(resource.getType());
         resourceDto.setTheme(resource.getTheme());
+        resourceDto.setAvailable(resource.getAvailable());
+        resourceDto.setLastBorrowingDate(resource.getLastBorrowingDate());
 
         return resourceDto;
     }

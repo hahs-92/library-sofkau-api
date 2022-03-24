@@ -16,9 +16,10 @@ public class Resource {
     private LocalDate lastBorrowingDate;
     private Boolean isAvailable;
 
+
     public Resource() {
         this.lastBorrowingDate = LocalDate.now();
-        this.isAvailable = false;
+        this.isAvailable = true;
     }
 
     public String getId() {

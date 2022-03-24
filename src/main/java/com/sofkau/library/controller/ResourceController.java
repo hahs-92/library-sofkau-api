@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -35,7 +36,7 @@ public class ResourceController {
     }
 
     @PostMapping
-    public ResponseEntity<ResourceDto> create(@RequestBody ResourceDto dto) {
+    public ResponseEntity<ResourceDto> create(@Valid @RequestBody ResourceDto dto) {
         try {
             return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (RuntimeException e) {
@@ -44,7 +45,7 @@ public class ResourceController {
     }
 
     @PutMapping
-    public ResponseEntity<ResourceDto> update(@RequestBody ResourceDto dto) {
+    public ResponseEntity<ResourceDto> update(@Valid @RequestBody ResourceDto dto) {
         try {
             if(dto.getId() == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
