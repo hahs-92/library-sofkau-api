@@ -1,6 +1,7 @@
 package com.sofkau.library.controller;
 
 import com.sofkau.library.dto.ResourceDto;
+import com.sofkau.library.model.Resource;
 import com.sofkau.library.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,4 +67,22 @@ public class ResourceController {
         }
 
     }
+
+    @GetMapping("/available/{id}")
+    public ResponseEntity<String> isAvailableResource(@PathVariable String id) {
+        try {
+            ResourceDto resource = service.getById(id);
+
+            if(Boolean.FALSE.equals(resource.getAvailable())) {
+                return new ResponseEntity<>(
+                        "Resource is not available, last borrowing date: " + resource.getLastBorrowingDate(),
+                        HttpStatus.FORBIDDEN
+                );
+            }
+            return new ResponseEntity<>("El resource is available", HttpStatus.OK);
+        }  catch (RuntimeException e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
