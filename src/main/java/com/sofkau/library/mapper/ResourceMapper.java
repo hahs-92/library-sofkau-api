@@ -23,9 +23,9 @@ public class ResourceMapper {
     public ResourceDto fromCollection(Resource resource) {
         ResourceDto resourceDto = new ResourceDto();
         resourceDto.setId(resource.getId());
-        resourceDto.setTitle(resourceDto.getTitle());
+        resourceDto.setTitle(resource.getTitle());
         resourceDto.setDescription(resource.getDescription());
-        resourceDto.setType(resourceDto.getType());
+        resourceDto.setType(resource.getType());
         resourceDto.setTheme(resource.getTheme());
 
         return resourceDto;
