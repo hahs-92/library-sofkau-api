@@ -7,11 +7,18 @@ import com.sofkau.library.repository.IResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ResourceService {
     @Autowired
     private IResourceRepository iResourceRepository;
     private ResourceMapper mapper  = new ResourceMapper();
+
+    public List<ResourceDto> getAll() {
+        List<Resource> resources = (List<Resource>) iResourceRepository.findAll();
+        return mapper.fromCollectionList(resources);
+    }
 
     public ResourceDto getById(String id) {
         Resource resource = iResourceRepository.findById(id)
