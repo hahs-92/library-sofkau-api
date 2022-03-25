@@ -100,22 +100,16 @@ public class ResourceControllerTest {
         resourceToReturn.setTheme("education");
         resourceToReturn.setType("book");
 
-        Mockito.doReturn(resourceToReturn).when(service).create(any());
+        Mockito.when(service.create(resourceToPost)).thenReturn(resourceToReturn);
+        //Mockito.doReturn(resourceToReturn).when(service).create(resourceToPost);
 
-        // Execute the POST request
-        mockMvc.perform(post("/resource")
+        //execute the Post
+        mockMvc.perform(post("/resources")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(resourceToPost))
-                );
-                // Validate the response code and content type
-                //.andExpect(status().isCreated())
-                //.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                // Validate the returned fields
-                //.andExpect(jsonPath("$.id", is("23x34y")))
-                //.andExpect(jsonPath("$.title", is("React")))
-                //.andExpect(jsonPath("$.description", is("description")))
-                //.andExpect(jsonPath("$.type", is("book")))
-                //.andExpect(jsonPath("$.theme", is("education")));
+                .content(asJsonString(resourceToPost)))
+
+                //validate response code
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -258,9 +252,6 @@ public class ResourceControllerTest {
                 //validate response code
                 .andExpect(status().isOk());
     }
-
-
-
 
 
     static String asJsonString(final Object obj) {

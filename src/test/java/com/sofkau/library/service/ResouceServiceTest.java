@@ -261,5 +261,4 @@ public class ResouceServiceTest {
         Assertions.assertEquals(resource3.getType(), result.get(2).getType());
     }
 
-
 }
